@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import {
   FaCalendar,
@@ -13,9 +13,6 @@ import {
   FaCamera,
   FaTrophy,
   FaChevronRight,
-  FaPhone,
-  FaInstagram,
-  FaFacebook,
 } from 'react-icons/fa6';
 import { GiPartyPopper } from 'react-icons/gi';
 
