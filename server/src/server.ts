@@ -369,7 +369,7 @@ app.post(
 	}),
 );
 
-aapp.get(
+app.get(
   "/api/auth/me",
   requireAuth,
   asyncHandler(async (req, res) => {
