@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
@@ -74,6 +74,43 @@ declare global {
   }
 }
 
+// TypeScript interfaces for documents
+interface IRequestMeta {
+  ip?: string;
+  userAgent?: string;
+  referer?: string | null;
+  origin?: string | null;
+  language?: string | null;
+  path?: string;
+  method?: string;
+}
+
+interface IWebsiteVisit extends Document {
+  page: string;
+  title?: string;
+  screen?: {
+    width?: number;
+    height?: number;
+  };
+  timezone?: string;
+  meta?: IRequestMeta;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface IMember extends Document {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  guests: string;
+  note?: string;
+  role: 'member' | 'admin';
+  status: 'pending' | 'approved' | 'rejected';
+  meta?: IRequestMeta;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 function isWebsiteClosed() {
   return Date.now() >= EVENT_CLOSE_AT.getTime();
 }
@@ -134,13 +171,14 @@ function getClientIp(req: Request) {
   return req.ip || req.socket.remoteAddress || 'unknown';
 }
 
-function getRequestMeta(req: Request) {
+function getRequestMeta(req: Request): IRequestMeta {
+  const referer = req.headers.referer || req.headers.referrer;
   return {
     ip: getClientIp(req),
     userAgent: req.headers['user-agent'] || 'unknown',
-    referer: req.headers.referer || req.headers.referrer || null,
-    origin: req.headers.origin || null,
-    language: req.headers['accept-language'] || null,
+    referer: typeof referer === 'string' ? referer : null,
+    origin: typeof req.headers.origin === 'string' ? req.headers.origin : null,
+    language: typeof req.headers['accept-language'] === 'string' ? req.headers['accept-language'] : null,
     path: req.originalUrl,
     method: req.method,
   };
@@ -159,7 +197,7 @@ const RequestMetaSchema = new Schema(
   { _id: false }
 );
 
-const WebsiteVisitSchema = new Schema(
+const WebsiteVisitSchema = new Schema<IWebsiteVisit>(
   {
     page: { type: String, required: true, trim: true, maxlength: 300 },
     title: { type: String, trim: true, maxlength: 200 },
@@ -173,7 +211,7 @@ const WebsiteVisitSchema = new Schema(
   { timestamps: true }
 );
 
-const MemberSchema = new Schema(
+const MemberSchema = new Schema<IMember>(
   {
     firstName: { type: String, required: true, trim: true, maxlength: 80 },
     lastName: { type: String, required: true, trim: true, maxlength: 80 },
@@ -187,8 +225,8 @@ const MemberSchema = new Schema(
   { timestamps: true }
 );
 
-const WebsiteVisit = model('WebsiteVisit', WebsiteVisitSchema);
-const Member = model('Member', MemberSchema);
+const WebsiteVisit = model<IWebsiteVisit>('WebsiteVisit', WebsiteVisitSchema);
+const Member = model<IMember>('Member', MemberSchema);
 
 function asyncHandler(fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -237,6 +275,10 @@ app.post('/api/admin/login', asyncHandler(async (req, res) => {
     },
     { new: true, upsert: true }
   );
+
+  if (!admin) {
+    return res.status(500).json({ success: false, message: 'Failed to create/admin user.' });
+  }
 
   const token = signToken({
     memberId: String(admin._id),
