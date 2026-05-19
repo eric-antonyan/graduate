@@ -13,7 +13,7 @@ import {
   FaRightFromBracket,
 } from 'react-icons/fa6';
 
-const API_URL = import.meta.env.REACT_APP_API_URL || 'https://graduate-9sim.vercel.app/';
+const API_URL = import.meta.env.REACT_APP_API_URL || 'https://graduate-9sim.vercel.app';
 
 type Member = {
   _id: string;
