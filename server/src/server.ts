@@ -9,6 +9,19 @@ import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+declare global {
+  var mongoose: {
+    conn: typeof mongoose | null;
+    promise: Promise<any> | null;
+  };
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 dotenv.config();
 
 const app = express();
@@ -356,32 +369,34 @@ app.post(
 	}),
 );
 
-app.get(
-	"/api/auth/me",
-	requireAuth,
-	asyncHandler(async (req, res) => {
-		const member = await Member.findById(req.currentUser?.memberId)
-			.select("-meta")
-			.lean();
-		if (!member)
-			return res
-				.status(404)
-				.json({ success: false, message: "User not found." });
+aapp.get(
+  "/api/auth/me",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    await connectDB(); // Add this line
+    
+    const member = await Member.findById(req.currentUser?.memberId)
+      .select("-meta")
+      .lean();
+    if (!member)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
 
-		return res.json({
-			success: true,
-			currentUser: {
-				id: member._id,
-				firstName: member.firstName,
-				lastName: member.lastName,
-				phone: member.phone,
-				guests: member.guests,
-				status: member.status,
-				role: req.currentUser?.role || member.role || "member",
-			},
-			websiteClosed: isWebsiteClosed(),
-		});
-	}),
+    return res.json({
+      success: true,
+      currentUser: {
+        id: String(member._id), // Convert to string
+        firstName: member.firstName,
+        lastName: member.lastName,
+        phone: member.phone,
+        guests: member.guests,
+        status: member.status,
+        role: req.currentUser?.role || member.role || "member",
+      },
+      websiteClosed: isWebsiteClosed(),
+    });
+  }),
 );
 
 app.post("/api/auth/logout", requireAuth, (_req, res) => {
@@ -418,6 +433,7 @@ app.post(
 	blockAfterEvent,
 	registerLimiter,
 	asyncHandler(async (req, res) => {
+    await connectDB();
 		const { firstName, lastName, phone, guests, note } = req.body;
 
 		if (!firstName?.trim() || !lastName?.trim() || !phone?.trim()) {
@@ -605,20 +621,26 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 let isConnected = false;
 
 async function connectDB() {
-	if (isConnected) return;
+  if (cached.conn) {
+    return cached.conn;
+  }
 
-	await mongoose.connect(MONGO_URI);
-	isConnected = true;
-	console.log("MongoDB connected");
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 10000,
+      connectTimeoutMS: 5000,
+    };
+
+    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+      console.log("MongoDB connected");
+      return mongoose;
+    });
+  }
+  
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
-
-app.use(async (_req, _res, next) => {
-	try {
-		await connectDB();
-		next();
-	} catch (error) {
-		next(error);
-	}
-});
 
 export default app;
