@@ -514,13 +514,23 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ success: false, message: 'Internal server error.' });
 });
 
-async function bootstrap() {
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) return;
+
   await mongoose.connect(MONGO_URI);
-  console.log('MongoDB connected');
-  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+  isConnected = true;
+  console.log("MongoDB connected");
 }
 
-bootstrap().catch((error) => {
-  console.error('Server failed to start:', error);
-  process.exit(1);
+app.use(async (_req, _res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
+
+export default app;
