@@ -28,7 +28,7 @@ import {
 } from 'react-icons/fa6';
 import { GiPartyPopper } from 'react-icons/gi';
 
-const API_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.REACT_APP_API_URL || 'https://graduate-9sim.vercel.app';
 
 type RegisterValues = {
   firstName: string;
