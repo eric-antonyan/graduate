@@ -16,7 +16,7 @@ const PORT = Number(process.env.PORT || 5000);
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://eric:AHsPF8cf@cluster0.sldmkon.mongodb.net/graduates';
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'https://graduate-3qb9.vercel.app';
 const JWT_SECRET = process.env.JWT_SECRET || 'CHANGE_THIS_SECRET_IN_ENV';
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'CHANGE_THIS_ADMIN_SECRET_IN_ENV';
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'dasaran$';
 const EVENT_CLOSE_AT = new Date(process.env.EVENT_CLOSE_AT || '2026-05-26T00:00:00+04:00');
 
 app.set('trust proxy', 1);
