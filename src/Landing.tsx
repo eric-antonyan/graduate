@@ -744,7 +744,6 @@ function PremiumHero() {
 								className="gold-text"
 								style={{
 									fontSize: "clamp(4rem, 13vw, 11rem)",
-									lineHeight: 0.86,
 									margin: 0,
 									letterSpacing: "-0.09em",
 									fontWeight: 900,
