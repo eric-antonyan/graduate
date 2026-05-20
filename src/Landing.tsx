@@ -946,53 +946,53 @@ function StudentCard({
 	);
 }
 
-function Timeline() {
-	return (
-		<div style={{ display: "grid", gap: 14 }}>
-			{timeline.map((item, index) => (
-				<motion.div
-					key={item.time}
-					className="glass timeline-row"
-					variants={premiumPop}
-					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true }}
-					custom={index * 0.08}
-					whileHover={{ x: 6, scale: 1.012 }}
-					style={{ borderRadius: 28, padding: 22 }}
-				>
-					<div
-						className="gold-text"
-						style={{ fontSize: 26, fontWeight: 950 }}
-					>
-						{item.time}
-					</div>
-					<div>
-						<div style={{ fontWeight: 950, fontSize: 18 }}>
-							{item.title}
-						</div>
-						<div
-							className="soft-text"
-							style={{ marginTop: 4, lineHeight: 1.5 }}
-						>
-							{item.text}
-						</div>
-					</div>
-					<motion.div
-						animate={{ x: [0, 5, 0] }}
-						transition={{
-							duration: 1.4,
-							repeat: Infinity,
-							delay: index * 0.15,
-						}}
-					>
-						<FaChevronRight color="rgba(248,215,122,.82)" />
-					</motion.div>
-				</motion.div>
-			))}
-		</div>
-	);
-}
+// function Timeline() {
+// 	return (
+// 		<div style={{ display: "grid", gap: 14 }}>
+// 			{timeline.map((item, index) => (
+// 				<motion.div
+// 					key={item.time}
+// 					className="glass timeline-row"
+// 					variants={premiumPop}
+// 					initial="hidden"
+// 					whileInView="visible"
+// 					viewport={{ once: true }}
+// 					custom={index * 0.08}
+// 					whileHover={{ x: 6, scale: 1.012 }}
+// 					style={{ borderRadius: 28, padding: 22 }}
+// 				>
+// 					<div
+// 						className="gold-text"
+// 						style={{ fontSize: 26, fontWeight: 950 }}
+// 					>
+// 						{item.time}
+// 					</div>
+// 					<div>
+// 						<div style={{ fontWeight: 950, fontSize: 18 }}>
+// 							{item.title}
+// 						</div>
+// 						<div
+// 							className="soft-text"
+// 							style={{ marginTop: 4, lineHeight: 1.5 }}
+// 						>
+// 							{item.text}
+// 						</div>
+// 					</div>
+// 					<motion.div
+// 						animate={{ x: [0, 5, 0] }}
+// 						transition={{
+// 							duration: 1.4,
+// 							repeat: Infinity,
+// 							delay: index * 0.15,
+// 						}}
+// 					>
+// 						<FaChevronRight color="rgba(248,215,122,.82)" />
+// 					</motion.div>
+// 				</motion.div>
+// 			))}
+// 		</div>
+// 	);
+// }
 
 function RsvpPopup({
 	onClose,
