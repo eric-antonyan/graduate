@@ -198,7 +198,7 @@ const students = [
 ];
 
 const eventDetails = [
-	{ icon: FaMapPin, label: "Վայր", value: "Տաշիրի շրջան, Գյուղ Լեռնահովիտ" },
+	{ icon: FaMapPin, label: "Վայր", value: "Լեռնահովիտի Ս․ Կարապետյանի անվան միջնակարգ դպրոց" },
 	{ icon: FaCalendar, label: "Ամսաթիվ", value: "Մայիսի 25, 2026" },
 	{ icon: FaClock, label: "Ժամ", value: "10:00" },
 	{ icon: FaUsers, label: "Դասղեկ", value: "Հասմիկ Կավալյան" },
