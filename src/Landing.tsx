@@ -763,7 +763,6 @@ function PremiumHero() {
 									maxWidth: 720,
 									marginTop: 26,
 									fontSize: "clamp(1.05rem, 2vw, 1.45rem)",
-									lineHeight: 1.7,
 									color: "rgba(255,255,255,.84)",
 								}}
 							>
@@ -867,7 +866,7 @@ function DetailCard({
 			>
 				{item.label}
 			</div>
-			<div style={{ fontSize: 18, lineHeight: 1.45, fontWeight: 900 }}>
+			<div style={{ fontSize: 18, fontWeight: 900 }}>
 				{item.value}
 			</div>
 		</motion.div>
