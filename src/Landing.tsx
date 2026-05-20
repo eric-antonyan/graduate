@@ -344,7 +344,7 @@ function GlobalStyles() {
         background-clip: text;
         color: transparent;
       }
-      .section-title { font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.02; margin: 0; letter-spacing: -0.05em; }
+      .section-title { font-size: clamp(2rem, 4vw, 3.8rem); margin: 0; letter-spacing: -0.05em; }
       .soft-text { color: rgba(255,255,255,.72); }
       .premium-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
       .student-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
@@ -1141,7 +1141,6 @@ function RsvpPopup({
 								style={{
 									margin: 0,
 									fontSize: "clamp(2rem, 6vw, 3.4rem)",
-									lineHeight: 1,
 									letterSpacing: "-.06em",
 									fontWeight: 950,
 								}}
@@ -1152,7 +1151,6 @@ function RsvpPopup({
 								className="soft-text"
 								style={{
 									margin: "12px 0 24px",
-									lineHeight: 1.6,
 								}}
 							>
 								Լրացրեք տվյալները, որպեսզի հաստատենք Ձեր
@@ -1263,7 +1261,6 @@ function RsvpPopup({
 										color: "#ffb2c6",
 										fontWeight: 900,
 										marginTop: 12,
-										lineHeight: 1.45,
 									}}
 								>
 									{status}
@@ -1482,7 +1479,6 @@ function Landing() {
 						<h2
 							style={{
 								fontSize: "clamp(1.8rem, 4vw, 3rem)",
-								lineHeight: 1.05,
 								margin: "18px 0 14px",
 								letterSpacing: "-.05em",
 							}}
@@ -1491,7 +1487,7 @@ function Landing() {
 						</h2>
 						<p
 							className="soft-text"
-							style={{ fontSize: 18, lineHeight: 1.7, margin: 0 }}
+							style={{ fontSize: 18, margin: 0 }}
 						>
 							Այս էջը ստեղծված է որպես հիշողությունների պրեմիում
 							թվային հրավիրատոմս՝ տոնական, մաքուր և ժամանակակից
@@ -1557,7 +1553,6 @@ function Landing() {
 						<h2
 							style={{
 								fontSize: "clamp(2rem, 2vw, 4.7rem)",
-								lineHeight: 0.95,
 								margin: "20px 0",
 								letterSpacing: "-.07em",
 							}}
@@ -1566,7 +1561,7 @@ function Landing() {
 						</h2>
 						<p
 							className="soft-text"
-							style={{ fontSize: 18, lineHeight: 1.8 }}
+							style={{ fontSize: 18 }}
 						>
 							Այս օրը ձեր կյանքի նոր էջի սկիզբն է։ Պահեք ջերմ
 							հիշողությունները, հպարտ եղեք ձեր անցած ճանապարհով և
